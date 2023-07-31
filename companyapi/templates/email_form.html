@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0066cc;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .invalid-input {
+            border-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Email Form</h1>
+    <form id="emailForm" method="post" action="{% url 'send_email_view' %}">
+        {% csrf_token %}
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+        <div class="error-message" id="subjectError"></div>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+        <div class="error-message" id="messageError"></div>
+
+        <label for="recipient_list">Email Address:</label>
+        <input type="text" id="recipient_list" name="recipient_list" required>
+        <div class="error-message" id="recipientError"></div>
+
+        <input type="submit" value="Send Email">
+    </form>
+
+    <script>
+        const form = document.getElementById("emailForm");
+
+        form.addEventListener("submit", function(event) {
+            const subjectInput = document.getElementById("subject");
+            const messageInput = document.getElementById("message");
+            const recipientInput = document.getElementById("recipient_list");
+            const subjectError = document.getElementById("subjectError");
+            const messageError = document.getElementById("messageError");
+            const recipientError = document.getElementById("recipientError");
+            let isValid = true;
+
+            subjectError.textContent = "";
+            messageError.textContent = "";
+            recipientError.textContent = "";
+
+            if (subjectInput.value.trim() === "") {
+                subjectError.textContent = "Please enter the subject.";
+                subjectInput.classList.add("invalid-input");
+                isValid = false;
+            }
+
+            if (messageInput.value.trim() === "") {
+                messageError.textContent = "Please enter the message.";
+                messageInput.classList.add("invalid-input");
+                isValid = false;
+            }
+
+            if (recipientInput.value.trim() === "") {
+                recipientError.textContent = "Please enter recipient email addresses.";
+                recipientInput.classList.add("invalid-input");
+                isValid = false;
+            } else if (!isValidEmail(recipientInput.value.trim())) {
+                recipientError.textContent = "Please enter a valid email address.";
+                recipientInput.classList.add("invalid-input");
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        form.addEventListener("input", function(event) {
+            event.target.classList.remove("invalid-input");
+            const errorMessage = event.target.nextElementSibling;
+            errorMessage.textContent = "";
+        });
+    </script>
+</body>
+</html>

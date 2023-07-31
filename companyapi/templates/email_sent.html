@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Sent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0066cc;
+        }
+
+        .success-message {
+            text-align: center;
+            color: #008000;
+            font-size: 24px;
+            margin-top: 30px;
+        }
+
+        .emoji {
+            font-size: 50px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .box {
+            padding: 15px;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #eaf2ff;
+        }
+
+        .box p {
+            margin: 0;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            text-decoration: none;
+            color: #0066cc;
+            background-color: #eaf2ff;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            background-color: #0066cc;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Sent</h1>
+        <div class="box">
+            <p class="success-message">Your email has been sent successfully! 🎉📧</p>
+        </div>
+        <p class="emoji">🌟🌈💌</p>
+        <p>Thank you for using our service!</p>
+        <a href="{% url 'send_email_view' %}" class="back-link">Back to Email Form</a>
+    </div>
+</body>
+</html>
